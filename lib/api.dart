@@ -49,4 +49,28 @@ class APIService {
       //return fromJson(data['data']);
     }
   }
+
+  static Future<bool> getItem(String username, String password) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    // String u = Config.resultURL + keyword;
+    // print(u);
+    var url = Uri.http(Config.apiURL, Config.login);
+
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(
+          <String, dynamic>{'username': username, 'password': password}),
+    );
+    var data = jsonDecode(response.body);
+    if (data['Status'] == 200) {
+      print(response.statusCode);
+      // var data = jsonDecode(response.body);
+
+      return true;
+    } else {
+      print(response.statusCode);
+      return false;
+    }
+  }
 }
